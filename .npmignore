@@ -1,0 +1,22 @@
+# Ignore Node.js modules
+node_modules
+
+# Ignore build files
+dist
+
+# Ignore TypeScript files
+*.ts
+*.js.map
+
+# Ignore test files and folders
+tests
+*.spec.ts
+
+# Ignore local configuration files
+*.local
+*.env
+
+# Ignore logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
