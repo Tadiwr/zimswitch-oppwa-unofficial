@@ -1,6 +1,6 @@
 {
   "name": "zimswitch-oppwa-unofficial",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An unofficial Zim-switch OPPWA node package",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
