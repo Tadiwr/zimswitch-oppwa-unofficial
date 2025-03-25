@@ -1,9 +1,6 @@
 # Ignore Node.js modules
 node_modules
 
-# Ignore build files
-dist
-
 # Ignore TypeScript files
 *.ts
 *.js.map
