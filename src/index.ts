@@ -7,7 +7,8 @@ const mainProcess = async () => {
 
     const merchant = payByLink.getTestPayByLinkMerchant({
         merchantName: "Codapt Swag",
-        backgroundImageUrl: "https://images.wallpapersden.com/image/download/pink-blue-gradient_bW1sbmuUmZqaraWkpJRsa21lrWloZ2U.jpg"
+        backgroundImageUrl: "https://images.wallpapersden.com/image/download/pink-blue-gradient_bW1sbmuUmZqaraWkpJRsa21lrWloZ2U.jpg",
+        logoUrl: "https://kyrossports.com/wp-content/uploads/2022/10/Kyros-Logo-retina.png"
     });
 
     const link = await payByLink.createPaymentLink(merchant, {
@@ -16,7 +17,7 @@ const mainProcess = async () => {
         currency: "USD",
         customerEmail: "tshxng@gmail.com",
         customerMobile: "263782925928",
-        amount: 300.0,
+        amount: 350.0,
         validity: {
             duration: "1", unit: "DAY"
         },
@@ -28,14 +29,25 @@ const mainProcess = async () => {
                 price: 300.0,
                 quantity: 1,
                 totalAmount: 300.0
+            },
+
+            {
+                name: "Elite 2 Controller",
+                currency: "USD",
+                description: "Next Gen gaming controller",
+                price: 50.0,
+                quantity: 1,
+                totalAmount: 50.0
             }
         ],
         resultUrl: "http://locahost:3000/payments"
     });
 
-    const status = await payByLink.getPayLinkStatus(merchant, "9969a94a-e257-4d9a-9b16-799a538abe4b", "6F2546EB06E43B9A2455E8D4540E180A.uat01-vm-tx04")
+    console.log(link);
+    
+    // const status = await payByLink.getPayLinkStatus(merchant, "57677ef3-d285-4f6a-b7be-329e2163ffe4", "68B77A92EBB731346AB0105E00CE6652.uat01-vm-tx03")
 
-    console.log(status);
+    // console.log(status.cart);
     
     
 }

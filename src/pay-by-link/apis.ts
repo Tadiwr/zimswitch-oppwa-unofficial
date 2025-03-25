@@ -94,7 +94,7 @@ export async function createPaymentLink(merchant: PayByLinkMerchant, config: TNe
             'customer.surname': config.customerLastName,
             'customer.mobile': config.customerMobile,
             'customer.email': config.customerEmail,
-            'layout.logo': merchant.getLogoUrl() ?? 'https://zimswitch.docs.oppwa.com/themes/devportal_theme/images/more-than-sportswear/logo.png',
+            'layout.logo': merchant.getLogoUrl() ?? "",
             'layout.logoWidth': merchant.getLogoWidthInPx() ?? "300px",
             'layout.logoHeight': merchant.getLogoHeightInPx() ?? "300px",
             'layout.backgroundImage': merchant.getBackgroundImageUrl() ?? '',
@@ -113,15 +113,19 @@ export async function createPaymentLink(merchant: PayByLinkMerchant, config: TNe
             'billing.postcode': config.billingPostCode ?? "",
             'billing.city': config.billingCity ?? "",
             'billing.country': config.billingCountry ?? "",
-            'createQRCode': 'true',
-            'cart.items[0].currency': config.cartItems[0].currency,
-            'cart.items[0].description': config.cartItems[0].description ?? "",
-            'cart.items[0].merchantItemId': config.cartItems[0].merchantItemId?.toString() ?? "1",
-            'cart.items[0].name': config.cartItems[0].name,
-            'cart.items[0].price': config.cartItems[0].price.toString(),
-            'cart.items[0].quantity': config.cartItems[0].quantity.toString(),
-            'cart.items[0].totalAmount': config.cartItems[0].totalAmount.toString()
+            'createQRCode': 'true'
         });
+
+        config.cartItems.map((item, index) => {
+
+            data.append(`cart.items[${index}].currency`, item.currency);
+            data.append(`cart.items[${index}].description`, item.description ?? "");
+            data.append(`cart.items[${index}].merchantItemId`, item.merchantItemId?.toString() ?? (index + 1).toString());
+            data.append(`cart.items[${index}].name`, item.name);
+            data.append(`cart.items[${index}].price`, item.price.toString());
+            data.append(`cart.items[${index}].quantity`, item.quantity.toString());
+            data.append(`cart.items[${index}].totalAmount`, item.totalAmount.toString());
+        })
 
         try {
             const response = await fetch(url, {
