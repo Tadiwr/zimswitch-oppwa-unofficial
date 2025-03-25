@@ -1,5 +1,5 @@
 import { PayByLinkMerchant } from "./config";
-import {v4} from "uuid"
+import { v4 } from "uuid"
 
 export type TCartItem = {
     name: string,
@@ -57,13 +57,23 @@ export type TNewPaymentLink = {
     resultUrl: string
 }
 
+type TPaymentResult = {
+    result: { code: string },
+    buildNumber: string,
+    timestamp: Date,
+    ndc: string,
+    id: string,
+    link: string,
+    qrCode: string
+}
+
 export async function createPaymentLink(merchant: PayByLinkMerchant, config: TNewPaymentLink) {
     const host = merchant.isTestMercant() ? 'eu-test.oppwa.com' : 'eu-prod.oppwa.com'
 
     const request = async () => {
         const endPoint = '/paybylink/v1';
         const url = `https://${host}${endPoint}`;
-        
+
         const data = new URLSearchParams({
             'entityId': merchant.getEntityId(),
             'amount': config.amount.toString(),
@@ -104,7 +114,7 @@ export async function createPaymentLink(merchant: PayByLinkMerchant, config: TNe
             'cart.items[0].quantity': config.cartItems[0].quantity.toString(),
             'cart.items[0].totalAmount': config.cartItems[0].totalAmount.toString()
         });
-    
+
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -114,19 +124,19 @@ export async function createPaymentLink(merchant: PayByLinkMerchant, config: TNe
                 },
                 body: data.toString()
             });
-    
+
             if (!response.ok) {
                 console.log("Error creating paymentLink", response);
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-    
-            const jsonResponse = await response.json();
+
+            const jsonResponse = (await response.json()) as TPaymentResult;
             return jsonResponse;
         } catch (error) {
             console.error(error);
             throw error;
         }
     };
-    
+
     return await request();
 }
