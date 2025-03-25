@@ -2,6 +2,7 @@
   "name": "zimswitch-oppwa-unofficial",
   "version": "0.0.3",
   "description": "An unofficial Zim-switch OPPWA node package",
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -11,7 +12,9 @@
   "scripts": {
     "build": "tsup"
   },
-  "keywords": ["zimswitch"],
+  "keywords": [
+    "zimswitch"
+  ],
   "author": "Tadiwanashe Shangwa",
   "license": "ISC",
   "packageManager": "pnpm@10.6.5",
@@ -26,5 +29,8 @@
     "ts-node": "^10.9.2",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "uuid": "^11.1.0"
   }
 }

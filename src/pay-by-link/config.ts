@@ -71,11 +71,22 @@ export function createPayByLinkMerchant(config: TCreatePayByLinkMerchant) {
     return new PayByLinkMerchant(config);
 }
 
-export function getTestPayByLinkMerchant(config: TCreatePayByLinkMerchant) {
+type TCreateTestPayByLinkMerchant = {
+    merchantName: string,
+    logoUrl?: string,
+    backgroundImageUrl?: string,
+    logoWidthInPx? : string,
+    logoHeightInPx? : string,
+    payButtonColour? : string,
+    payButtonTextColour? : string,
+    isTestMerchant?: boolean
+}
+
+export function getTestPayByLinkMerchant(config: TCreateTestPayByLinkMerchant) {
     
     return new PayByLinkMerchant({
-        bearerToken: config.bearerToken,
-        entityId: config.entityId,
+        bearerToken: "OGFjN2E0Yzc5Mzk0YmRjODAxOTM5NzM2ZjFhNzA2NDF8enlac1lYckc4QXk6bjYzI1NHNng=",
+        entityId: "8ac7a4c79394bdc801939736f1d10646",
         merchantName: config.merchantName,
         logoUrl: config.logoUrl,
         backgroundImageUrl: config.backgroundImageUrl,
