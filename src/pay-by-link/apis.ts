@@ -67,12 +67,20 @@ type TPaymentResult = {
     qrCode: string
 }
 
+function getApiHost(merchant: PayByLinkMerchant) {
+    const host = merchant.isTestMercant() ? 'eu-test.oppwa.com' : 'eu-prod.oppwa.com';
+    return host;
+}
+
+function getUri(merchant: PayByLinkMerchant, endPoint: string) {
+    const host = getApiHost(merchant);
+    return `https://${host}${endPoint}`;
+}
+
 export async function createPaymentLink(merchant: PayByLinkMerchant, config: TNewPaymentLink) {
-    const host = merchant.isTestMercant() ? 'eu-test.oppwa.com' : 'eu-prod.oppwa.com'
 
     const request = async () => {
-        const endPoint = '/paybylink/v1';
-        const url = `https://${host}${endPoint}`;
+        const url = getUri(merchant, '/paybylink/v1');
 
         const data = new URLSearchParams({
             'entityId': merchant.getEntityId(),
@@ -140,3 +148,75 @@ export async function createPaymentLink(merchant: PayByLinkMerchant, config: TNe
 
     return await request();
 }
+
+type TCheckPaylinkStatusResParamError = {
+    name: string,
+    value: string,
+    message: string
+}
+
+type TCheckPaylinkStatusRes = {
+    id: string,
+    paymentType: string,
+    paymentBrand: string,
+    amount: number,
+    currency: string,
+    descriptor: string,
+    merchantTransactionId: string,
+    result: {
+        code: string,
+        description: string
+    },
+    resultDetails: { clearingInstituteName: string },
+    card: {
+        bin: string,
+        last4Digits: string,
+        holder: string,
+        expiryMonth: string,
+        expiryYear: string,
+        issuer: { bank: string },
+        type: string,
+        level: string,
+        country: string,
+        maxPanLength: string,
+        binType: string,
+        regulatedFlag: string
+    },
+    customer: {
+        givenName: string,
+        surname: string,
+        mobile: string,
+        email: string,
+        ip: string
+    },
+    threeDSecure: { eci: string },
+    customParameters: {
+        SHOPPER_EndToEndIdentity: string,
+        CTPE_DESCRIPTOR_TEMPLATE: string
+    },
+    cart: { items: TCartItem[] },
+    buildNumber: string,
+    timestamp: string,
+    ndc: string
+}
+
+/** Checking for Payment Status */
+export async function getPayLinkStatus(merchant: PayByLinkMerchant, id: string, checkoutId: string) {
+    const url = getUri(merchant, `/paybylink/v1/${id}/checkouts/${checkoutId}/payment?entityId=${merchant.getEntityId()}`);
+
+    const res = await fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${merchant.getBearerToken()}`
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error(`Server responded with ${res.status}. Detailed Error Response
+            ${await res.json()}
+            ${res} 
+        `);
+    }
+
+    return (await res.json()) as TCheckPaylinkStatusRes;
+
+}   
