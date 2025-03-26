@@ -8,4 +8,8 @@ Here is a roadmap for the package
 
 ## Package Roadmap
   
-- [X]  Pay By Link Integration
+- [ X ]  Pay By Link Integration
+- [ ]  Copy And Pay Integration
+- [ ]  Server to Server Integration
+- [ ]  Subscriptions
+- [ ]  Back Office
