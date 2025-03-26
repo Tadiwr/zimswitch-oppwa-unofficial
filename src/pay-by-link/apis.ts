@@ -1,4 +1,5 @@
-import { PayByLinkMerchant } from "./config";
+import { getUri, getUriWithEntityParam, merchantAuthorization } from "../shared/api.utils";
+import { Merchant } from "./config";
 import { v4 } from "uuid"
 
 export type TCartItem = {
@@ -67,17 +68,7 @@ type TPaymentResult = {
     qrCode: string
 }
 
-function getApiHost(merchant: PayByLinkMerchant) {
-    const host = merchant.isTestMercant() ? 'eu-test.oppwa.com' : 'eu-prod.oppwa.com';
-    return host;
-}
-
-function getUri(merchant: PayByLinkMerchant, endPoint: string) {
-    const host = getApiHost(merchant);
-    return `https://${host}${endPoint}`;
-}
-
-export async function createPaymentLink(merchant: PayByLinkMerchant, config: TNewPaymentLink) {
+export async function createPaymentLink(merchant: Merchant, config: TNewPaymentLink) {
 
     const request = async () => {
         const url = getUri(merchant, '/paybylink/v1');
@@ -204,23 +195,58 @@ type TCheckPaylinkStatusRes = {
     ndc: string
 }
 
-/** Checking for Payment Status */
-export async function getPayLinkStatus(merchant: PayByLinkMerchant, id: string, checkoutId: string) {
-    const url = getUri(merchant, `/paybylink/v1/${id}/checkouts/${checkoutId}/payment?entityId=${merchant.getEntityId()}`);
+/** Checking the status of a payment */
+export async function getPaymentStatus(merchant: Merchant, id: string, checkoutId: string) {
+    const url = getUriWithEntityParam(merchant, `/paybylink/v1/${id}/checkouts/${checkoutId}/payment`);
 
     const res = await fetch(url, {
         headers: {
-            'Authorization': `Bearer ${merchant.getBearerToken()}`
+            'Authorization': `Bearer ${merchant.getBearerToken()}`,
+            "Accept": "application/json"
         }
     });
 
     if (!res.ok) {
         throw new Error(`Server responded with ${res.status}. Detailed Error Response
-            ${await res.json()}
             ${res} 
         `);
     }
 
     return (await res.json()) as TCheckPaylinkStatusRes;
 
-}   
+}
+
+export type TPaymentLink = {
+    paymentLinkId: string,
+    entityId: string,
+    merchantId: string,
+    status: number,
+    creationDate: Date,
+    validUntil: Date,
+    checkoutId?: string,
+    transactionId?: string,
+    checkoutCreationDate?: string,
+    result?: {
+        code: string,
+        description: string
+    }
+}
+
+export type TGetPaymentLinkStatusRes = {
+    result: { code: string },
+    buildNumber: string,
+    timestamp: Date,
+    ndc: string,
+    paymentLinks: TPaymentLink[]
+}
+
+/** Check the status of a payment link */
+export async function getPaymentLinkStatus(merchant: Merchant, paymentLinkId: string) {
+    const url = getUriWithEntityParam(merchant, `/paybylink/v1/${paymentLinkId}`);
+
+    const res = await fetch(url, {
+        headers: merchantAuthorization(merchant)
+    });
+
+    return (await res.json()) as TGetPaymentLinkStatusRes;
+}

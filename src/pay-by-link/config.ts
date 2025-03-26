@@ -1,6 +1,6 @@
-// Configuiring a PayByLinkMerchant Class
+// Configuiring a Merchant Class
 
-export class PayByLinkMerchant {
+export class Merchant {
 
     /** The bearer token issued by Zimswitch */
     private bearerToken: string;
@@ -68,7 +68,7 @@ type TCreatePayByLinkMerchant = {
 }
 
 export function createPayByLinkMerchant(config: TCreatePayByLinkMerchant) {
-    return new PayByLinkMerchant(config);
+    return new Merchant(config);
 }
 
 type TCreateTestPayByLinkMerchant = {
@@ -84,7 +84,7 @@ type TCreateTestPayByLinkMerchant = {
 
 export function getTestPayByLinkMerchant(config: TCreateTestPayByLinkMerchant) {
     
-    return new PayByLinkMerchant({
+    return new Merchant({
         bearerToken: "OGFjN2E0Yzc5Mzk0YmRjODAxOTM5NzM2ZjFhNzA2NDF8enlac1lYckc4QXk6bjYzI1NHNng=",
         entityId: "8ac7a4c79394bdc801939736f1d10646",
         merchantName: config.merchantName,

@@ -20,6 +20,12 @@ export function merchantAuthorization(merchant: Merchant) {
     }
 }
 
+/** Completes the request url like `getUri(merchant: Merchant, endpoint: string)` 
+ * but also adds the merchant `entityId` request param to the request url
+ * 
+ * e.g `https://.../payments/{id}?entityId={merchantEntityId}` 
+ * */
+
 export function getUriWithEntityParam(merchant: Merchant, endPoint: string) {
     return `${getUri(merchant, endPoint)}?entityId=${merchant.getEntityId()}`;
 }
