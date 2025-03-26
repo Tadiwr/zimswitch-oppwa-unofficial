@@ -1,6 +1,6 @@
 import { test, expect, it } from "vitest";
 import * as paylink from "../../src/pay-by-link";
-import { getApiHost, getUri, getUriWithEntityParam, LIVE_HOST, merchantAuthorization, TEST_HOST } from "../../src/shared/api.utils";
+import { getApiHost, getUri, getUriWithEntityParam, LIVE_HOST, merchantAuthorization, moneyToString, TEST_HOST } from "../../src/shared/api.utils";
 import { describe } from "node:test";
 
 describe("tests getApiHost", () => {
@@ -92,3 +92,10 @@ describe("tests merchant authorization header", () => {
     });
 });
 
+it("rounds 200 to 200.00", () => {
+    expect(moneyToString(200)).toBe("200.00");
+    expect(moneyToString(200.0099)).toBe("200.01");
+    expect(moneyToString(30.6)).toBe("30.60");
+    expect(moneyToString(0)).toBe("0.00");
+    expect(moneyToString(1.125)).toBe("1.13");
+})

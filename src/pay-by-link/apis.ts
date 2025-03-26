@@ -1,4 +1,4 @@
-import { getUri, getUriWithEntityParam, merchantAuthorization } from "../shared/api.utils";
+import { getUri, getUriWithEntityParam, merchantAuthorization, moneyToString } from "../shared/api.utils";
 import { Merchant } from "./config";
 import { v4 } from "uuid"
 
@@ -75,7 +75,7 @@ export async function createPaymentLink(merchant: Merchant, config: TNewPaymentL
 
         const data = new URLSearchParams({
             'entityId': merchant.getEntityId(),
-            'amount': config.amount.toString(),
+            'amount': moneyToString(config.amount),
             'currency': config.currency,
             'paymentType': config.paymentType ?? 'DB',
             'merchant.name': merchant.getMerchantName(),
@@ -113,9 +113,9 @@ export async function createPaymentLink(merchant: Merchant, config: TNewPaymentL
             data.append(`cart.items[${index}].description`, item.description ?? "");
             data.append(`cart.items[${index}].merchantItemId`, item.merchantItemId?.toString() ?? (index + 1).toString());
             data.append(`cart.items[${index}].name`, item.name);
-            data.append(`cart.items[${index}].price`, item.price.toString());
+            data.append(`cart.items[${index}].price`, moneyToString(item.price));
             data.append(`cart.items[${index}].quantity`, (item.quantity ?? 1).toString());
-            data.append(`cart.items[${index}].totalAmount`, item.totalAmount.toString());
+            data.append(`cart.items[${index}].totalAmount`, moneyToString(item.totalAmount));
         })
 
         try {

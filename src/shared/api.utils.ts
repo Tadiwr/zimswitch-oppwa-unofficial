@@ -32,3 +32,8 @@ export function merchantAuthorization(merchant: Merchant) {
 export function getUriWithEntityParam(merchant: Merchant, endPoint: string) {
     return `${getUri(merchant, endPoint)}?entityId=${merchant.getEntityId()}`;
 }
+
+export function moneyToString(amount: number) {
+    const to2Dp = amount.toFixed(2);
+    return to2Dp.toString(); 
+}
