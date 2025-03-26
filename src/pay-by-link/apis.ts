@@ -196,8 +196,8 @@ type TCheckPaylinkStatusRes = {
 }
 
 /** Checking the status of a payment */
-export async function getPaymentStatus(merchant: Merchant, id: string, checkoutId: string) {
-    const url = getUriWithEntityParam(merchant, `/paybylink/v1/${id}/checkouts/${checkoutId}/payment`);
+export async function getPaymentStatus(merchant: Merchant, paymentLinkId: string, checkoutId: string) {
+    const url = getUriWithEntityParam(merchant, `/paybylink/v1/${paymentLinkId}/checkouts/${checkoutId}/payment`);
 
     const res = await fetch(url, {
         headers: {
@@ -259,6 +259,7 @@ export type TSendPaymentLinkViaSmsOption = {
     smsTo:string
 }
 
+/** Extra chargies may apply and only works in live environemt not test environment */
 export async function sendPaymentLinkViaSms(merchant: Merchant, paymentLinkId: string, options: TSendPaymentLinkViaSmsOption) {
     const url = getUri(merchant, `/paybylink/v1/${paymentLinkId}/sms`);
 
@@ -275,4 +276,13 @@ export async function sendPaymentLinkViaSms(merchant: Merchant, paymentLinkId: s
     });
 
     return await res.json();
+}
+
+export async function deletePaymentLink(merchant: Merchant, paymentLinkId: string) {
+    const url = getUriWithEntityParam(merchant, `/paybylink/v1/${paymentLinkId}`);
+
+    const res = await fetch(url, {
+        method: "DELETE",
+        headers: merchantAuthorization(merchant)
+    });
 }

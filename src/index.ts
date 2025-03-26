@@ -45,10 +45,10 @@ const mainProcess = async () => {
 
     // console.log(link);
 
-    const linkStatus = await payByLink.getPaymentLinkStatus(merchant, "2ab6fcf9-b70f-4cca-ace4-5ade489837bf");
-    console.log(linkStatus.paymentLinks[0].result);
+    const linkStatus = await payByLink.getPaymentLinkStatus(merchant, "faca95f2-83af-4f21-840b-9234f89143bb");
+    console.log(linkStatus);
 
-    
+    await payByLink.deletePaymentLink(merchant, "faca95f2-83af-4f21-840b-9234f89143bb")
     
 }
 mainProcess();
