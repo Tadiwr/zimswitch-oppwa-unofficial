@@ -1,6 +1,6 @@
 {
   "name": "zimswitch-oppwa-unofficial",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "An unofficial Zim-switch OPPWA node package",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "watch": "tsup --watch"
+    "watch": "tsup --watch",
+    "test": "vitest"
   },
   "keywords": [
     "zimswitch"
@@ -29,7 +30,8 @@
     "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
   },
   "dependencies": {
     "uuid": "^11.1.0"

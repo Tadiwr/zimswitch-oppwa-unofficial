@@ -2,6 +2,9 @@
 
 import { Merchant } from "../pay-by-link/config";
 
+export const TEST_HOST = 'eu-test.oppwa.com';
+export const LIVE_HOST = 'eu-prod.oppwa.com';
+
 /** Returns an appropriate api host depending on whether the merchant is in test mode or live mode  */
 export function getApiHost(merchant: Merchant) {
     const host = merchant.isTestMercant() ? 'eu-test.oppwa.com' : 'eu-prod.oppwa.com';
@@ -16,7 +19,7 @@ export function getUri(merchant: Merchant, endPoint: string) {
 
 export function merchantAuthorization(merchant: Merchant) {
     return {
-        "Authorization": `Bearer ${merchant.getBearerToken()}`
+        Authorization: `Bearer ${merchant.getBearerToken()}`
     }
 }
 

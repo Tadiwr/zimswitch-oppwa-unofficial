@@ -54,7 +54,7 @@ export class Merchant {
     public isTestMercant() {return this.testMerchantFlag}
 }
 
-type TCreatePayByLinkMerchant = {
+export type TCreatePayByLinkMerchant = {
     bearerToken: string,
     entityId: string,
     merchantName: string,
@@ -67,22 +67,21 @@ type TCreatePayByLinkMerchant = {
     isTestMerchant?: boolean
 }
 
-export function createPayByLinkMerchant(config: TCreatePayByLinkMerchant) {
+export function createMerchant(config: TCreatePayByLinkMerchant) {
     return new Merchant(config);
 }
 
-type TCreateTestPayByLinkMerchant = {
+export type TCreateTestPayByLinkMerchant = {
     merchantName: string,
     logoUrl?: string,
     backgroundImageUrl?: string,
     logoWidthInPx? : string,
     logoHeightInPx? : string,
     payButtonColour? : string,
-    payButtonTextColour? : string,
-    isTestMerchant?: boolean
+    payButtonTextColour? : string
 }
 
-export function getTestPayByLinkMerchant(config: TCreateTestPayByLinkMerchant) {
+export function createTestMerchant(config: TCreateTestPayByLinkMerchant) {
     
     return new Merchant({
         bearerToken: "OGFjN2E0Yzc5Mzk0YmRjODAxOTM5NzM2ZjFhNzA2NDF8enlac1lYckc4QXk6bjYzI1NHNng=",
