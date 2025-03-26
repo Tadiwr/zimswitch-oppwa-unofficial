@@ -78,8 +78,7 @@ export type TCreateTestPayByLinkMerchant = {
     logoWidthInPx? : string,
     logoHeightInPx? : string,
     payButtonColour? : string,
-    payButtonTextColour? : string,
-    isTestMerchant?: boolean
+    payButtonTextColour? : string
 }
 
 export function createTestMerchant(config: TCreateTestPayByLinkMerchant) {
