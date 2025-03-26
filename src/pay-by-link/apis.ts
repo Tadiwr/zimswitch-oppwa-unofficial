@@ -250,3 +250,29 @@ export async function getPaymentLinkStatus(merchant: Merchant, paymentLinkId: st
 
     return (await res.json()) as TGetPaymentLinkStatusRes;
 }
+
+export type TSendPaymentLinkViaSmsOption = {
+    /** The name of the SMS sender, usually the name of the merchant */
+    from?: string,
+
+    /** Phone number of SMS receipient */
+    smsTo:string
+}
+
+export async function sendPaymentLinkViaSms(merchant: Merchant, paymentLinkId: string, options: TSendPaymentLinkViaSmsOption) {
+    const url = getUri(merchant, `/paybylink/v1/${paymentLinkId}/sms`);
+
+    const data = new URLSearchParams({
+        'entityId':merchant.getEntityId(),
+		'from': options.from ?? merchant.getMerchantName(),
+		'smsTo':options.smsTo
+    });
+
+    const res = await fetch(url, {
+        method: "POST",
+        headers: merchantAuthorization(merchant),
+        body: data.toString()
+    });
+
+    return await res.json();
+}

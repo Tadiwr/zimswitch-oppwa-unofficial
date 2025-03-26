@@ -47,6 +47,8 @@ const mainProcess = async () => {
 
     const linkStatus = await payByLink.getPaymentLinkStatus(merchant, "2ab6fcf9-b70f-4cca-ace4-5ade489837bf");
     console.log(linkStatus.paymentLinks[0].result);
+
+    
     
 }
 mainProcess();
