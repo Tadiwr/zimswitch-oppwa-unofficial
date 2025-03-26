@@ -4,11 +4,11 @@ import { v4 } from "uuid"
 
 export type TCartItem = {
     name: string,
-    currency: string,
+    currency?: string,
     description?: string,
     merchantItemId?: number,
     price: number,
-    quantity: number,
+    quantity?: number,
     totalAmount: number,
 }
 
@@ -35,7 +35,7 @@ export type TNewPaymentLink = {
     customerEmail: string
 
     /** How long the link is valid */
-    validity: {
+    validity?: {
         duration: string,
         unit: "DAY" | "HOUR" | "YEAR" | "MONTH"
     },
@@ -93,8 +93,8 @@ export async function createPaymentLink(merchant: Merchant, config: TNewPaymentL
             'layout.amountColor': '#ffffff',
             'layout.payButtonColor': merchant.getPayButtonColour() ?? '#0dcaf0',
             'layout.payButtonTextColor': merchant.getPayButtonTextColour() ?? '#ffffff',
-            'validUntil': config.validity.duration,
-            'validUntilUnit': config.validity.unit,
+            'validUntil': config.validity?.duration ?? "1",
+            'validUntilUnit': config.validity?.unit ?? "DAY",
             'termsAndConditionsUrl': config.termsAndConditionsUrl ?? 'https://mtsTandCs.com',
             'privacyPolicyUrl': config.privacyPolicyUrl ?? 'https://mtsPrivacyPolicy.com',
             'collectBilling': 'street1,houseNumber1,postcode,city,country',
@@ -109,12 +109,12 @@ export async function createPaymentLink(merchant: Merchant, config: TNewPaymentL
 
         config.cartItems.map((item, index) => {
 
-            data.append(`cart.items[${index}].currency`, item.currency);
+            data.append(`cart.items[${index}].currency`, item.currency ?? config.currency);
             data.append(`cart.items[${index}].description`, item.description ?? "");
             data.append(`cart.items[${index}].merchantItemId`, item.merchantItemId?.toString() ?? (index + 1).toString());
             data.append(`cart.items[${index}].name`, item.name);
             data.append(`cart.items[${index}].price`, item.price.toString());
-            data.append(`cart.items[${index}].quantity`, item.quantity.toString());
+            data.append(`cart.items[${index}].quantity`, (item.quantity ?? 1).toString());
             data.append(`cart.items[${index}].totalAmount`, item.totalAmount.toString());
         })
 
