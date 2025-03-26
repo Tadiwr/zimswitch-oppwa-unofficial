@@ -1,6 +1,6 @@
 import { test, expect, it } from "vitest";
 import * as paylink from "../../src/pay-by-link";
-import { getApiHost, getUri, getUriWithEntityParam, LIVE_HOST, merchantAuthorization, moneyToString, TEST_HOST } from "../../src/shared/api.utils";
+import { getApiHost, getUri, getUriWithEntityParam, LIVE_HOST, merchantAuthorization, moneyToString, TEST_HOST } from "../../src/private/api.utils";
 import { describe } from "node:test";
 
 describe("tests getApiHost", () => {

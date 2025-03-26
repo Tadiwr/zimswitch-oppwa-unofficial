@@ -1,4 +1,4 @@
-import { getUri, getUriWithEntityParam, merchantAuthorization, moneyToString } from "../shared/api.utils";
+import { getUri, getUriWithEntityParam, merchantAuthorization, moneyToString } from "../private/api.utils";
 import { Merchant } from "./config";
 import { v4 } from "uuid"
 
